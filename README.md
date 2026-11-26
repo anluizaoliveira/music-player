@@ -29,3 +29,53 @@ O projeto foi desenvolvido utilizando:
 - **Pygame:** reprodução dos arquivos de áudio.
 - **Pillow:** carregamento e manipulação das imagens utilizadas na interface.
 - **Mutagen:** obtenção de informações sobre os arquivos de áudio.
+
+## 📁 Estrutura do projeto
+
+```text
+music-player/
+│
+├── músicas/
+│   ├── musica1.mp3
+│   ├── musica2.mp3
+│   └── ...
+│
+├── imagens/
+│   └── tela-inicial.png
+│
+├── icon1.png.png
+├── iconanterior.png
+├── iconpare.png
+├── iconpause.png
+├── iconplay.png
+├── iconproxima.png
+│
+├── vibemusic.py
+└── README.md
+```
+
+## ⚙️ Instalação e execução
+
+**1. Clone o repositório:**
+
+```bash
+git clone https://github.com/anluizaoliveira/music-player.git
+```
+
+**2. Entre na pasta do projeto:**
+
+```bash
+cd music-player
+```
+
+**3. Instale as dependências:**
+
+```bash
+python -m pip install pygame pillow mutagen
+```
+
+**4. Execute o programa:**
+
+```bash
+python vibemusic.py
+```
