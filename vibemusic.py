@@ -315,6 +315,243 @@ def atualizar_barra():
 
     janela.after(500, atualizar_barra)
 
+# ==========================================
+# 9. FUNÇÕES DE REPRODUÇÃO
+# ==========================================
+
+def play_musica():
+    """Reproduz a música selecionada."""
+
+    global musica_pausada
+
+    selecao = listbox.curselection()
+
+    if not selecao:
+        return
+
+    indice = selecao[0]
+    tocando = musicas[indice]
+
+    caminho = os.path.join(
+        PASTA_MUSICAS,
+        tocando
+    )
+
+    try:
+        mixer.music.load(caminho)
+        mixer.music.play()
+
+        musica_pausada = False
+
+        atualizar_duracao(caminho)
+
+        l_rodando.config(text=tocando)
+
+    except Exception as erro:
+        messagebox.showerror(
+            "Erro ao reproduzir",
+            str(erro)
+        )
+
+
+def pausar_musica():
+    """Pausa a reprodução atual."""
+
+    global musica_pausada
+    global posicao_atual
+
+    if mixer.music.get_busy():
+        posicao_atual = (
+            posicao_base +
+            (time.monotonic() - inicio_trecho)
+        )
+
+        mixer.music.pause()
+        musica_pausada = True
+
+
+def continuar_musica():
+    """Retoma a reprodução pausada."""
+
+    global musica_pausada
+    global posicao_base
+    global inicio_trecho
+
+    if musica_pausada:
+        mixer.music.unpause()
+
+        posicao_base = posicao_atual
+        inicio_trecho = time.monotonic()
+
+        musica_pausada = False
+
+
+def parar_musica():
+    """Interrompe a reprodução."""
+
+    global musica_pausada
+    global posicao_atual
+    global posicao_base
+
+    mixer.music.stop()
+
+    musica_pausada = False
+    posicao_atual = 0
+    posicao_base = 0
+
+    barra_progresso.set(0)
+
+    tempo_atual.config(text="00:00")
+
+
+def reproduzir_indice(indice):
+    """Reproduz uma música pelo índice da lista."""
+
+    global musica_pausada
+
+    if not musicas:
+        return
+
+    indice = indice % len(musicas)
+
+    tocando = musicas[indice]
+
+    caminho = os.path.join(
+        PASTA_MUSICAS,
+        tocando
+    )
+
+    try:
+        mixer.music.load(caminho)
+        mixer.music.play()
+
+        musica_pausada = False
+
+        atualizar_duracao(caminho)
+
+        listbox.selection_clear(0, tk.END)
+        listbox.selection_set(indice)
+        listbox.activate(indice)
+        listbox.see(indice)
+
+        l_rodando.config(text=tocando)
+
+    except Exception as erro:
+        messagebox.showerror(
+            "Erro ao reproduzir",
+            str(erro)
+        )
+
+
+def proxima_musica():
+    """Avança para a próxima música."""
+
+    if not musicas:
+        return
+
+    selecao = listbox.curselection()
+
+    if selecao:
+        indice = selecao[0]
+    elif l_rodando["text"] in musicas:
+        indice = musicas.index(l_rodando["text"])
+    else:
+        indice = -1
+
+    reproduzir_indice(indice + 1)
+
+
+def musica_anterior():
+    """Volta para a música anterior."""
+
+    if not musicas:
+        return
+
+    selecao = listbox.curselection()
+
+    if selecao:
+        indice = selecao[0]
+    elif l_rodando["text"] in musicas:
+        indice = musicas.index(l_rodando["text"])
+    else:
+        indice = 1
+
+    reproduzir_indice(indice - 1)
+
+
+# ==========================================
+# 10. CARREGAMENTO DOS ÍCONES
+# ==========================================
+
+def carregar_icone(nome):
+    """Carrega e redimensiona os ícones."""
+
+    caminho = os.path.join(
+        PASTA_PROJETO,
+        nome
+    )
+
+    imagem = Image.open(caminho)
+    imagem = imagem.resize((30, 30))
+
+    return ImageTk.PhotoImage(imagem)
+
+
+img_2 = carregar_icone("iconanterior.png")
+img_3 = carregar_icone("iconplay.png")
+img_4 = carregar_icone("iconproxima.png")
+img_5 = carregar_icone("iconpause.png")
+img_6 = carregar_icone("iconpare.png")
+
+
+# ==========================================
+# 11. BARRA DE PROGRESSO E TEMPOS
+# ==========================================
+
+tempo_atual = tk.Label(
+    frame_baixo,
+    text="00:00",
+    bg=COR_PAINEL,
+    fg=COR_TEXTO,
+    font=("Arial", 8, "bold")
+)
+
+tempo_atual.place(x=5, y=29)
+
+tempo_total = tk.Label(
+    frame_baixo,
+    text="00:00",
+    bg=COR_PAINEL,
+    fg=COR_TEXTO,
+    font=("Arial", 8, "bold")
+)
+
+tempo_total.place(x=310, y=29)
+
+barra_progresso = tk.Scale(
+    frame_baixo,
+    from_=0,
+    to=1,
+    orient=tk.HORIZONTAL,
+    length=255,
+    showvalue=False,
+    resolution=0.1,
+    sliderlength=12,
+    width=5,
+    bg=COR_PAINEL,
+    fg=COR_TEXTO,
+    troughcolor=COR_SUPERFICIE,
+    activebackground=COR_ROXO,
+    highlightthickness=0,
+    bd=0
+)
+
+barra_progresso.place(x=45, y=20)
+
+barra_progresso.bind(
+    "<ButtonRelease-1>",
+    avancar_musica
+)
 
 
 
