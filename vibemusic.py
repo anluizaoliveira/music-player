@@ -1,11 +1,11 @@
-
 import os
+import time
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
 from pygame import mixer
+from pygame import error as pygame_error
 from mutagen import File as MutagenFile
-
 
 # ==========================================
 # 1. CONFIGURAÇÕES E CORES
