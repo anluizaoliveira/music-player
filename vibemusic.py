@@ -553,6 +553,40 @@ barra_progresso.bind(
     avancar_musica
 )
 
+# ==========================================
+# 12. CRIAÇÃO DOS BOTÕES
+# ==========================================
+
+def criar_botao(imagem, comando, posicao):
+    botao = tk.Button(
+        frame_baixo,
+        command=comando,
+        image=imagem,
+        relief=tk.FLAT,
+        overrelief=tk.RIDGE,
+        bg=COR_SUPERFICIE,
+        fg=COR_DESTAQUE,
+        activebackground=COR_ROXO,
+        activeforeground=COR_FUNDO,
+        borderwidth=0,
+        padx=5,
+        pady=5
+    )
+
+    botao.place(
+        relx=0.5,
+        x=posicao,
+        y=75,
+        anchor="center"
+    )
+
+    return botao
+
+
+b_anterior = criar_botao(
+    img_2,
+    musica_anterior,
+    -140
 
 
 
