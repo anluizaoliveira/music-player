@@ -79,3 +79,11 @@ python -m pip install pygame pillow mutagen
 ```bash
 python vibemusic.py
 ```
+
+
+## 🎧 Como utilizar
+
+1. Abra o programa VYBE.
+2. Adicione seus arquivos de áudio à pasta `músicas`.
+3. Selecione uma música na lista.
+4. Utilize os botões de controle para reproduzir, pausar, continuar, avançar ou voltar as músicas.
