@@ -587,6 +587,47 @@ b_anterior = criar_botao(
     img_2,
     musica_anterior,
     -140
+)
+
+b_play = criar_botao(
+    img_3,
+    play_musica,
+    -70
+)
+
+b_proximo = criar_botao(
+    img_4,
+    proxima_musica,
+    0
+)
+
+b_pausa = criar_botao(
+    img_5,
+    pausar_musica,
+    70
+)
+
+b_parar = criar_botao(
+    img_6,
+    parar_musica,
+    140
+)
+
+
+# ==========================================
+# 13. ATUALIZAÇÃO AUTOMÁTICA
+# ==========================================
+
+janela.after(500, atualizar_barra)
+
+
+# ==========================================
+# 14. LOOP PRINCIPAL
+# ==========================================
+
+janela.mainloop()
+
+
 
 
 
